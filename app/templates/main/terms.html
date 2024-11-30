@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Terms of Service{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-8 py-8">
+    <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-900">Terms of Service</h1>
+        <p class="mt-4 text-xl text-gray-600">Last updated: {{ last_updated }}</p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="p-8 space-y-8">
+            <!-- Agreement -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Agreement to Terms</h2>
+                <p class="text-gray-600">
+                    By accessing or using Eco Impact Tracker, you agree to be bound by these Terms of Service. 
+                    If you disagree with any part of the terms, you may not access the service.
+                </p>
+            </section>
+
+            <!-- Account Terms -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Account Terms</h2>
+                <ul class="list-disc list-inside text-gray-600 space-y-2">
+                    <li>You must be 13 years or older to use this service</li>
+                    <li>You must provide accurate and complete information</li>
+                    <li>You are responsible for maintaining account security</li>
+                    <li>You must notify us of any security breach</li>
+                    <li>We reserve the right to terminate accounts</li>
+                </ul>
+            </section>
+
+            <!-- User Responsibilities -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">User Responsibilities</h2>
+                <p class="text-gray-600 mb-4">You agree not to:</p>
+                <ul class="list-disc list-inside text-gray-600 space-y-2">
+                    <li>Use the service for any illegal purpose</li>
+                    <li>Submit false or misleading information</li>
+                    <li>Interfere with the service's operation</li>
+                    <li>Attempt to gain unauthorized access</li>
+                    <li>Use the service to harm others</li>
+                </ul>
+            </section>
+
+            <!-- Content -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Content and Intellectual Property</h2>
+                <div class="space-y-4">
+                    <p class="text-gray-600">
+                        The service and its original content are and will remain the exclusive property of 
+                        Eco Impact Tracker and its licensors. The service is protected by copyright, 
+                        trademark, and other laws.
+                    </p>
+                    <p class="text-gray-600">
+                        Our trademarks and trade dress may not be used in connection with any product 
+                        or service without our prior written consent.
+                    </p>
+                </div>
+            </section>
+
+            <!-- User Content -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">User-Generated Content</h2>
+                <p class="text-gray-600 mb-4">
+                    By posting content on Eco Impact Tracker, you grant us the right to use, modify, 
+                    publicly perform, publicly display, reproduce, and distribute such content on and 
+                    through the service.
+                </p>
+                <p class="text-gray-600">
+                    You agree that this license includes the right for us to make your content available 
+                    to other users of the service, who may also use your content subject to these Terms.
+                </p>
+            </section>
+
+            <!-- Limitation of Liability -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Limitation of Liability</h2>
+                <p class="text-gray-600">
+                    In no event shall Eco Impact Tracker, nor its directors, employees, partners, agents, 
+                    suppliers, or affiliates, be liable for any indirect, incidental, special, consequential 
+                    or punitive damages, including without limitation, loss of profits, data, use, goodwill, 
+                    or other intangible losses.
+                </p>
+            </section>
+
+            <!-- Changes to Terms -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Changes to Terms</h2>
+                <p class="text-gray-600">
+                    We reserve the right to modify or replace these Terms at any time. If a revision is 
+                    material, we will try to provide at least 30 days' notice prior to any new terms 
+                    taking effect.
+                </p>
+            </section>
+
+            <!-- Contact -->
+            <section>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Contact Us</h2>
+                <p class="text-gray-600">
+                    If you have any questions about these Terms, please contact us at:
+                </p>
+                <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <p class="text-gray-800">Email: terms@ecoimpact.com</p>
+                    <p class="text-gray-800">Address: 123 Green Street, Eco City, EC 12345</p>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Eco Impact Tracker{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Welcome Section -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-green-600">Welcome, {{ current_user.username }}!</h1>
+        <p class="mt-2 text-gray-600">Track your environmental impact and make a difference.</p>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <a href="{{ url_for('main.log_activity') }}" 
+           class="bg-green-600 text-white rounded-lg p-6 hover:bg-green-700 transition-colors">
+            <h2 class="text-xl font-bold mb-2">Log Activity</h2>
+            <p class="text-sm opacity-90">Record your eco-friendly actions</p>
+        </a>
+        <a href="{{ url_for('challenges.challenges') }}" 
+           class="bg-blue-600 text-white rounded-lg p-6 hover:bg-blue-700 transition-colors">
+            <h2 class="text-xl font-bold mb-2">Challenges</h2>
+            <p class="text-sm opacity-90">Join environmental challenges</p>
+        </a>
+        <a href="{{ url_for('main.daily_tips') }}" 
+           class="bg-purple-600 text-white rounded-lg p-6 hover:bg-purple-700 transition-colors">
+            <h2 class="text-xl font-bold mb-2">Daily Tips</h2>
+            <p class="text-sm opacity-90">Get eco-friendly suggestions</p>
+        </a>
+        <a href="{{ url_for('community.forum') }}" 
+           class="bg-orange-600 text-white rounded-lg p-6 hover:bg-orange-700 transition-colors">
+            <h2 class="text-xl font-bold mb-2">Community</h2>
+            <p class="text-sm opacity-90">Connect with other eco-warriors</p>
+        </a>
+    </div>
+
+    <!-- Impact Summary -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <!-- Recent Activities -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Recent Activities</h2>
+                    <a href="{{ url_for('main.log_activity') }}" 
+                       class="text-green-600 hover:text-green-700">+ Add Activity</a>
+                </div>
+                {% if recent_activities %}
+                    <div class="space-y-4">
+                        {% for activity in recent_activities %}
+                        <div class="border-b border-gray-200 pb-4 last:border-0">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">{{ activity.category }}</h3>
+                                    <p class="text-gray-600 text-sm mt-1">{{ activity.description }}</p>
+                                    <span class="text-gray-500 text-xs">{{ activity.date.strftime('%Y-%m-%d') }}</span>
+                                </div>
+                                <span class="font-medium {% if activity.impact < 0 %}text-green-600{% else %}text-red-600{% endif %}">
+                                    {{ activity.impact }} kg CO2
+                                </span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-8">
+                        <p class="text-gray-500">No activities logged yet.</p>
+                        <a href="{{ url_for('main.log_activity') }}" 
+                           class="inline-block mt-4 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                            Log Your First Activity
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Impact Stats -->
+        <div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Impact Summary</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-gray-600 mb-2">Total Impact</h3>
+                        <p class="text-3xl font-bold {% if total_impact < 0 %}text-green-600{% else %}text-red-600{% endif %}">
+                            {{ "%.1f"|format(total_impact) }} kg CO2
+                        </p>
+                    </div>
+                    
+                    {% if category_impact %}
+                    <div>
+                        <h3 class="text-gray-600 mb-2">By Category</h3>
+                        <div class="space-y-2">
+                            {% for category, impact in category_impact %}
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-700">{{ category }}</span>
+                                <span class="font-medium {% if impact < 0 %}text-green-600{% else %}text-red-600{% endif %}">
+                                    {{ "%.1f"|format(impact) }} kg CO2
+                                </span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Impact Chart -->
+            <div class="bg-white rounded-lg shadow-md p-6 mt-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Impact Over Time</h2>
+                <div id="impact-chart" class="w-full h-64"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch("{{ url_for('main.activity_stats') }}")
+        .then(response => response.json())
+        .then(data => {
+            const chart = JSON.parse(data.plot);
+            Plotly.newPlot('impact-chart', chart.data, chart.layout);
+        })
+        .catch(error => {
+            console.error('Error loading chart:', error);
+            document.getElementById('impact-chart').innerHTML = 'Error loading chart';
+        });
+});
+</script>
+{% endblock %}

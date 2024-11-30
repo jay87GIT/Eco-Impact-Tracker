@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">Profile</h1>
+    
+    <div class="bg-white shadow rounded-lg p-6">
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Username</label>
+                <p class="mt-1 text-lg text-gray-900">{{ current_user.username }}</p>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Email</label>
+                <p class="mt-1 text-lg text-gray-900">{{ current_user.email }}</p>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Member Since</label>
+                <p class="mt-1 text-lg text-gray-900">{{ current_user.created_at.strftime('%B %d, %Y') }}</p>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Points</label>
+                <p class="mt-1 text-lg text-gray-900">{{ current_user.points }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

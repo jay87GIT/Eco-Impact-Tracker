@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Create New Post</h1>
+
+    <form method="post" class="max-w-2xl">
+        <div class="mb-6">
+            <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title</label>
+            <input type="text" name="title" id="title" required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
+                placeholder="Enter post title">
+        </div>
+
+        <div class="mb-6">
+            <label for="category" class="block text-gray-700 text-sm font-bold mb-2">Category</label>
+            <select name="category" id="category" required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500">
+                <option value="">Select a category</option>
+                <option value="Tips & Tricks">Tips & Tricks</option>
+                <option value="Success Stories">Success Stories</option>
+                <option value="Questions">Questions</option>
+                <option value="Discussion">Discussion</option>
+                <option value="News">News</option>
+            </select>
+        </div>
+
+        <div class="mb-6">
+            <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content</label>
+            <textarea name="content" id="content" rows="10" required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500"
+                placeholder="Write your post content here..."></textarea>
+        </div>
+
+        <div class="flex justify-end">
+            <a href="{{ url_for('community.forum') }}"
+                class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mr-4">
+                Cancel
+            </a>
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                Create Post
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

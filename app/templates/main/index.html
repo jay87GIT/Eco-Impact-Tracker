@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Eco Impact Tracker - Make a Difference{% endblock %}
+
+{% block content %}
+<div class="relative bg-white overflow-hidden">
+    <!-- Hero section -->
+    <div class="relative pt-6 pb-16 sm:pb-24">
+        <main class="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
+            <div class="text-center">
+                <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                    <span class="block">Track Your</span>
+                    <span class="block text-green-600">Environmental Impact</span>
+                </h1>
+                <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+                    Join our community of eco-conscious individuals making a difference. Track your carbon footprint, participate in challenges, and help create a sustainable future.
+                </p>
+                <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
+                    {% if current_user.is_authenticated %}
+                    <div class="rounded-md shadow">
+                        <a href="{{ url_for('main.dashboard') }}"
+                           class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 md:py-4 md:text-lg md:px-10">
+                            Go to Dashboard
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="rounded-md shadow">
+                        <a href="{{ url_for('auth.register') }}"
+                           class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 md:py-4 md:text-lg md:px-10">
+                            Get Started
+                        </a>
+                    </div>
+                    <div class="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
+                        <a href="{{ url_for('auth.login') }}"
+                           class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-green-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
+                            Sign In
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Features section -->
+    <div class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center">
+                <h2 class="text-base text-green-600 font-semibold tracking-wide uppercase">Features</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Everything you need to make a difference
+                </p>
+            </div>
+
+            <div class="mt-10">
+                <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+                    <!-- Feature 1 -->
+                    <div class="relative">
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-green-500 text-white">
+                            <i class="fas fa-chart-line text-xl"></i>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Carbon Footprint Tracking</p>
+                        <p class="mt-2 ml-16 text-base text-gray-500">
+                            Monitor your daily activities and see their environmental impact in real-time.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="relative">
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-green-500 text-white">
+                            <i class="fas fa-trophy text-xl"></i>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Eco Challenges</p>
+                        <p class="mt-2 ml-16 text-base text-gray-500">
+                            Participate in monthly challenges and compete with others to reduce your impact.
+                        </p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="relative">
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-green-500 text-white">
+                            <i class="fas fa-users text-xl"></i>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Community</p>
+                        <p class="mt-2 ml-16 text-base text-gray-500">
+                            Connect with like-minded individuals and share eco-friendly tips and experiences.
+                        </p>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="relative">
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-green-500 text-white">
+                            <i class="fas fa-lightbulb text-xl"></i>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Smart Recommendations</p>
+                        <p class="mt-2 ml-16 text-base text-gray-500">
+                            Get personalized suggestions to help you reduce your environmental impact.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

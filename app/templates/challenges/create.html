@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Create Challenge{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8">Create a New Challenge</h1>
+        
+        <form method="POST" class="bg-white rounded-lg shadow-lg p-6 space-y-6">
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700">Challenge Title</label>
+                <input type="text" name="title" id="title" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+            </div>
+            
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea name="description" id="description" rows="4" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500"></textarea>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                    <select name="category" id="category" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        <option value="Energy">Energy</option>
+                        <option value="Water">Water</option>
+                        <option value="Waste">Waste</option>
+                        <option value="Transportation">Transportation</option>
+                        <option value="Food">Food</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="difficulty" class="block text-sm font-medium text-gray-700">Difficulty</label>
+                    <select name="difficulty" id="difficulty" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div>
+                <label for="points" class="block text-sm font-medium text-gray-700">Points</label>
+                <input type="number" name="points" id="points" min="100" max="1000" step="50" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                <p class="mt-1 text-sm text-gray-500">Points should be between 100 and 1000</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
+                    <input type="date" name="start_date" id="start_date" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                </div>
+                
+                <div>
+                    <label for="end_date" class="block text-sm font-medium text-gray-700">End Date</label>
+                    <input type="date" name="end_date" id="end_date" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                </div>
+            </div>
+            
+            <div class="flex justify-end space-x-4">
+                <a href="{{ url_for('challenges.challenges') }}"
+                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </a>
+                <button type="submit"
+                    class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700">
+                    Create Challenge
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Set minimum date as today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('start_date').min = today;
+    document.getElementById('end_date').min = today;
+    
+    // Validate end date is after start date
+    document.getElementById('start_date').addEventListener('change', function() {
+        document.getElementById('end_date').min = this.value;
+    });
+    
+    // Adjust points based on difficulty
+    document.getElementById('difficulty').addEventListener('change', function() {
+        const pointsInput = document.getElementById('points');
+        switch(this.value) {
+            case 'Easy':
+                pointsInput.value = '100';
+                break;
+            case 'Medium':
+                pointsInput.value = '300';
+                break;
+            case 'Hard':
+                pointsInput.value = '500';
+                break;
+        }
+    });
+});
+</script>
+{% endblock %}

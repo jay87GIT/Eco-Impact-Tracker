@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Log Activity - Eco Impact Tracker{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-3xl font-bold text-green-600 mb-8">Log Your Eco Activity</h1>
+
+        <form method="POST" class="bg-white shadow-md rounded-lg p-6">
+            <div class="mb-6">
+                <label for="category" class="block text-gray-700 text-sm font-bold mb-2">Category</label>
+                <select id="category" name="category" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <option value="">Select a category</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Energy">Energy Usage</option>
+                    <option value="Food">Food & Diet</option>
+                    <option value="Waste">Waste Reduction</option>
+                    <option value="Water">Water Usage</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="mb-6">
+                <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                <textarea id="description" name="description" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    rows="3" placeholder="Describe your eco-friendly activity"></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label for="impact" class="block text-gray-700 text-sm font-bold mb-2">Carbon Impact (kg CO2)</label>
+                <div class="relative">
+                    <input type="number" id="impact" name="impact" step="0.1" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        placeholder="0.0">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <span class="text-gray-500">kg CO2</span>
+                    </div>
+                </div>
+                <p class="mt-1 text-sm text-gray-500">Enter a positive number for emissions, negative for reductions</p>
+            </div>
+
+            <div class="mb-6">
+                <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date</label>
+                <input type="date" id="date" name="date" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    value="{{ today_date }}">
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button type="submit"
+                    class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                    Log Activity
+                </button>
+                <a href="{{ url_for('main.dashboard') }}"
+                    class="text-gray-600 hover:text-gray-800">Cancel</a>
+            </div>
+        </form>
+
+        <div class="mt-8 bg-green-50 rounded-lg p-6">
+            <h2 class="text-xl font-bold text-green-700 mb-4">Carbon Impact Guide</h2>
+            <div class="space-y-4">
+                <div>
+                    <h3 class="font-semibold">Transportation</h3>
+                    <ul class="ml-4 text-sm text-gray-600">
+                        <li>• Car (per km): 0.2 kg CO2</li>
+                        <li>• Bus (per km): 0.08 kg CO2</li>
+                        <li>• Bike/Walk: -0.2 kg CO2 (savings)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold">Energy Usage</h3>
+                    <ul class="ml-4 text-sm text-gray-600">
+                        <li>• LED bulb switch: -0.5 kg CO2</li>
+                        <li>• Energy-efficient appliance: -2.0 kg CO2</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold">Food & Diet</h3>
+                    <ul class="ml-4 text-sm text-gray-600">
+                        <li>• Meatless meal: -1.5 kg CO2</li>
+                        <li>• Local produce purchase: -0.5 kg CO2</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Set today's date as default
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').value = today;
+    });
+
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const impact = document.getElementById('impact').value;
+        const description = document.getElementById('description').value;
+        
+        if (!impact || !description) {
+            e.preventDefault();
+            alert('Please fill in all required fields');
+        }
+    });
+</script>
+{% endblock %}

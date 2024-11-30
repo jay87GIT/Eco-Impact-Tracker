@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Eco Challenges{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Header -->
+    <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-900">Eco Challenges</h1>
+        <p class="mt-4 text-xl text-gray-600">Complete challenges to earn points and make a difference</p>
+    </div>
+
+    <!-- Your Progress -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="p-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Your Progress</h2>
+                    <p class="mt-2 text-gray-600">Keep up the great work!</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-500">Current Level</p>
+                    <p class="text-3xl font-bold text-green-600">{{ current_user.level }}</p>
+                </div>
+            </div>
+            <div class="mt-6">
+                <div class="relative pt-1">
+                    <div class="flex mb-2 items-center justify-between">
+                        <div>
+                            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-green-600 bg-green-200">
+                                Progress to Next Level
+                            </span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-semibold inline-block text-green-600">
+                                {{ current_user.points % 1000 }}/1000
+                            </span>
+                        </div>
+                    </div>
+                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-green-200">
+                        <div style="width:{{ (current_user.points % 1000) / 10 }}%" 
+                             class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Challenges -->
+    <div class="space-y-6">
+        <h2 class="text-2xl font-bold text-gray-900">Active Challenges</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for challenge in active_challenges %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold text-gray-900">{{ challenge.title }}</h3>
+                        <span class="px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                            {{ challenge.points }} points
+                        </span>
+                    </div>
+                    <p class="mt-4 text-gray-600">{{ challenge.description }}</p>
+                    <div class="mt-6 flex items-center justify-between">
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-users mr-2"></i>
+                            {{ challenge.active_participants_count }} active participants
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-clock mr-2"></i>
+                            Ends {{ challenge.end_date.strftime('%B %d, %Y') }}
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        {% if challenge.id in user_challenges %}
+                            {% if user_challenges[challenge.id].completed %}
+                            <button disabled class="w-full px-4 py-2 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed">
+                                Completed
+                            </button>
+                            {% else %}
+                            <form action="{{ url_for('challenges.complete_challenge', challenge_id=challenge.id) }}" method="POST">
+                                <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    Mark as Complete
+                                </button>
+                            </form>
+                            {% endif %}
+                        {% else %}
+                        <form action="{{ url_for('challenges.join_challenge', challenge_id=challenge.id) }}" method="POST">
+                            <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                                Join Challenge
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Challenge Categories -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-6">
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-leaf text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="mt-4 text-lg font-semibold text-gray-900">Daily Habits</h3>
+                    <p class="mt-2 text-gray-600">Small changes that make a big impact</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-6">
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-users text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="mt-4 text-lg font-semibold text-gray-900">Community Action</h3>
+                    <p class="mt-2 text-gray-600">Work together for bigger change</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-6">
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto bg-yellow-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-lightbulb text-2xl text-yellow-600"></i>
+                    </div>
+                    <h3 class="mt-4 text-lg font-semibold text-gray-900">Innovation</h3>
+                    <p class="mt-2 text-gray-600">Create new eco-friendly solutions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge History -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-900">Your Challenge History</h2>
+        </div>
+        <div class="divide-y divide-gray-200">
+            {% for user_challenge in current_user.challenges if user_challenge.completed %}
+            <div class="p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">{{ user_challenge.challenge.title }}</h3>
+                        <p class="mt-1 text-sm text-gray-500">Completed on {{ user_challenge.completed_at.strftime('%B %d, %Y') }}</p>
+                    </div>
+                    <span class="px-3 py-1 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
+                        +{{ user_challenge.challenge.points }} points
+                    </span>
+                </div>
+            </div>
+            {% else %}
+            <div class="p-6 text-center text-gray-500">
+                No completed challenges yet. Join a challenge to get started!
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
